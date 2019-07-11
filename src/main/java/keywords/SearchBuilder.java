@@ -14,7 +14,6 @@ public class SearchBuilder {
     private Platform platformEnum;
     private Region regionEnum;
     private String completeness;
-    private String region;
     private String notes;
 
     public SearchBuilder(String title, String platform, String completeness, String region, String notes) {
@@ -23,9 +22,8 @@ public class SearchBuilder {
         platformEnum = Platform.getPlatformByDescription(platform);
         this.completeness = completeness;
         regionEnum = Region.getRegionByDescription(region);
-        this.region = region;
         this.notes = notes;
-        System.out.println("Input: " + title + SPACE + platform + SPACE + completeness + SPACE + region + SPACE + notes);
+//        System.out.println("Input: " + title + SPACE + platform + SPACE + completeness + SPACE + region + SPACE + notes);
     }
 
     public String buildSearchString() {
@@ -61,7 +59,7 @@ public class SearchBuilder {
             searchString = removeLastFilter(searchString);
         }
         System.out.println("Zoekopdracht: " + searchString);
-        System.out.println("Zoekcategorie: " + platformEnum.getCategory().name());
+//        System.out.println("Zoekcategorie: " + platformEnum.getCategory().name());
         return searchString;
     }
 

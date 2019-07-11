@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Data
 @XmlRootElement(name = "findCompletedItemsResponse", namespace = "http://www.ebay.com/marketplace/search/v1/services")
@@ -22,9 +24,23 @@ public class FindCompletedItemsResponse implements Serializable {
 
     private SearchResult searchResult;
 
-
     @Override
     public String toString() {
+        String retval = "0 found";
+        double total = 0;
+        int results = 0;
+        if (searchResult != null && searchResult.getItem() != null) {
+            for (Item item : searchResult.getItem()) {
+                results++;
+                total += item.getSellingStatus().getConvertedCurrentPrice();
+            }
+            retval = "€" + roundPrice(total / results) + " (" + results + " found)";
+        }
+        return retval;
+    }
+
+    //Elaborate resultstring for testing purposes
+    public String toStringTestOnly() {
         StringBuilder builder = new StringBuilder();
         String space = " ";
         double total = 0;
@@ -43,5 +59,11 @@ public class FindCompletedItemsResponse implements Serializable {
         }
         builder.append("Aantal resultaten: ").append(results);
         return builder.toString();
+    }
+
+    private double roundPrice(double price) {
+        BigDecimal bd = new BigDecimal(price);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
