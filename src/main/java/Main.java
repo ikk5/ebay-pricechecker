@@ -39,8 +39,10 @@ public class Main {
     private Properties getProperties() throws IOException {
         Properties properties = new Properties();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties");
-        properties.load(inputStream);
-        inputStream.close();
+        if (inputStream != null) {
+            properties.load(inputStream);
+            inputStream.close();
+        }
         return properties;
     }
 

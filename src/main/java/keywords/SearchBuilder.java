@@ -66,10 +66,12 @@ public class SearchBuilder {
     }
 
     private String removeContainedWords(String searchString, String words) {
-        String[] splitWords = StringUtils.lowerCase(words).split(SPACE);
-        for (String word : splitWords) {
-            if (StringUtils.contains(searchString, "-" + word + SPACE)) {
-                searchString = searchString.replace(" -" + word, "");
+        if (words != null) {
+            String[] splitWords = StringUtils.lowerCase(words).split(SPACE);
+            for (String word : splitWords) {
+                if (StringUtils.contains(searchString, "-" + word + SPACE)) {
+                    searchString = searchString.replace(" -" + word, "");
+                }
             }
         }
         return searchString;
