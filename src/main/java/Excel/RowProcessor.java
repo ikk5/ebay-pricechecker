@@ -43,17 +43,23 @@ public class RowProcessor {
     public ProcessedRow processRow(Row row) {
         ProcessedRow processedRow = new ProcessedRow();
         Iterator<Cell> cellIterator = row.cellIterator();
-        while (cellIterator.hasNext()) {
+        while (cellIterator.hasNext())
+        {
             Cell cell = cellIterator.next();
-            if (titleColumn != null && titleColumn == cell.getColumnIndex()) {
+            if (titleColumn != null && titleColumn == cell.getColumnIndex())
+            {
                 processedRow.setTitle(cell.getStringCellValue());
-            } else if (platformColumn != null && platformColumn == cell.getColumnIndex()) {
+            } else if (platformColumn != null && platformColumn == cell.getColumnIndex())
+            {
                 processedRow.setPlatform(cell.getStringCellValue());
-            } else if (completenessColumn != null && completenessColumn == cell.getColumnIndex()) {
+            } else if (completenessColumn != null && completenessColumn == cell.getColumnIndex())
+            {
                 processedRow.setCompleteness(cell.getStringCellValue());
-            } else if (regionColumn != null && regionColumn == cell.getColumnIndex()) {
+            } else if (regionColumn != null && regionColumn == cell.getColumnIndex())
+            {
                 processedRow.setRegion(cell.getStringCellValue());
-            } else if (notesColumn != null && notesColumn == cell.getColumnIndex()) {
+            } else if (notesColumn != null && notesColumn == cell.getColumnIndex())
+            {
                 processedRow.setNotes(cell.getStringCellValue());
             }
         }
@@ -76,9 +82,11 @@ public class RowProcessor {
 
     private void findColumns(Row row) {
         Iterator<Cell> headerIterator = row.cellIterator();
-        while (headerIterator.hasNext() && !allHeadersFound()) {
+        while (headerIterator.hasNext() && !allHeadersFound())
+        {
             Cell cell = headerIterator.next();
-            switch (cell.getStringCellValue()) {
+            switch (cell.getStringCellValue())
+            {
                 case "Titel":
                 case "Title":
                     titleColumn = cell.getColumnIndex();

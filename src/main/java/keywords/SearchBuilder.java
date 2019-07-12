@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Map;
 
 public class SearchBuilder {
-    private static final String DEFAULT = " -lot -empty -edition -2 -3 -replacement";
+    private static final String DEFAULT = " -lot -empty -edition -2 -3 -replacement -repro";
     private static final String SPACE = " ";
     private static final int MAX_SEARCH_LENGTH = 350;
 
@@ -27,7 +27,8 @@ public class SearchBuilder {
     }
 
     public String buildSearchString() {
-        if (StringUtils.isBlank(title)) {
+        if (StringUtils.isBlank(title))
+        {
             return "";
         }
         StringBuilder builder = new StringBuilder();
@@ -35,14 +36,15 @@ public class SearchBuilder {
         builder.append(addNotesWords());
 
         //Platform
-        if (platform != null && platformEnum.shouldAddPlatformToKeyword() && !StringUtils.containsIgnoreCase(title, platform)) {
-            builder.append(SPACE).append(platform);
+        if (platform != null)
+        {
+            builder.append(platformEnum.getKeywords());
         }
-        builder.append(platformEnum.getKeywords());
 
         //Completeness
         String completenessKeywords = Completeness.getCompletenessKeywords(completeness);
-        if (completenessKeywords != null) {
+        if (completenessKeywords != null)
+        {
             builder.append(completenessKeywords);
         }
 
@@ -53,9 +55,11 @@ public class SearchBuilder {
         builder.append(addBundleFilter()).append(DEFAULT);
 
         String searchString = removeContainedWords(builder.toString().trim(), title);
+        searchString = removeNumbersInTitle(searchString);
         searchString = removeContainedWords(searchString, notes);
 
-        while (searchString.length() > MAX_SEARCH_LENGTH) {
+        while (searchString.length() > MAX_SEARCH_LENGTH)
+        {
             searchString = removeLastFilter(searchString);
         }
         System.out.println("Zoekopdracht: " + searchString);
@@ -64,10 +68,13 @@ public class SearchBuilder {
     }
 
     private String removeContainedWords(String searchString, String words) {
-        if (words != null) {
+        if (words != null)
+        {
             String[] splitWords = StringUtils.lowerCase(words).split(SPACE);
-            for (String word : splitWords) {
-                if (StringUtils.contains(searchString, "-" + word + SPACE)) {
+            for (String word : splitWords)
+            {
+                if (StringUtils.contains(searchString, "-" + word + SPACE))
+                {
                     searchString = searchString.replace(" -" + word, "");
                 }
             }
@@ -75,12 +82,26 @@ public class SearchBuilder {
         return searchString;
     }
 
+    private String removeNumbersInTitle(String searchString) {
+        if ((title.contains("2") || platform.contains("2")) && searchString.contains("-2"))
+        {
+            searchString = searchString.replaceAll(" -2", "");
+        }
+        if ((title.contains("3") || platform.contains("3")) && searchString.contains("-3"))
+        {
+            searchString = searchString.replaceAll(" -3", "");
+        }
+        return searchString;
+    }
+
+
     private String addBundleFilter() {
         String bundleFilter = " -bundle -pack";
         if (StringUtils.containsIgnoreCase(title, "bundle") ||
                 StringUtils.containsIgnoreCase(title, "pack") ||
                 StringUtils.containsIgnoreCase(notes, "pack") ||
-                StringUtils.containsIgnoreCase(notes, "bigbox")) {
+                StringUtils.containsIgnoreCase(notes, "bigbox"))
+        {
             bundleFilter = "";
         }
         return bundleFilter;
@@ -88,8 +109,9 @@ public class SearchBuilder {
 
     private String addNotesWords() {
         String noteWords = "";
-        if (StringUtils.containsIgnoreCase(notes, "edition")) {
-            noteWords = SPACE + notes;
+        if (StringUtils.containsIgnoreCase(notes, "edition"))
+        {
+            noteWords = " edition";
         }
         return noteWords;
     }

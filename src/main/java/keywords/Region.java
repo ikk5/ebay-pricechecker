@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public enum Region {
-    PAL("PAL", " -us -ntsc -usa -jpn -japanese -japan", LocatedIn.EU),
+    PAL("PAL", " -us -ntsc -usa -jpn -japanese -japan -jap", LocatedIn.EU),
     NTSC("NTSC", " -pal", LocatedIn.USJ),
     NTSCU("NTSC-U", " -pal", LocatedIn.US),
     NTSCJ("NTSC-J", " -pal", LocatedIn.JPN),

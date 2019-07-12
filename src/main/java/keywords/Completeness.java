@@ -9,11 +9,11 @@ public class Completeness {
     private static final String NOT_SEALED = " -sealed -neu -new -neuf -nuovo -neuware -seal";
     private static final Map<String, String> completeness = new HashMap<String, String>() {
         {
-            put("cib", " -only -loose -ohne -nur -sans" + NOT_SEALED);
+            put("cib", " -only -loose -ohne -nur -sans (complete,boxed,cib,ovp,box,complet,komplett)" + NOT_SEALED);
             put("ci", " -ovp -boxed" + NOT_SEALED);
             put("cb", " -ovp" + NOT_SEALED);
             put("loose", " -cib -complete -ovp -boxed" + NOT_SEALED);
-            put("sealed", " -only -loose -ohne -nur -sans");
+            put("sealed", " (sealed,seal,new,neuf,neu,neuware,nuovo) -wie -like -only -loose -ohne -nur -sans");
         }
     };
 

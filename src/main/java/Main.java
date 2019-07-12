@@ -19,8 +19,8 @@ public class Main {
         long startTime = System.nanoTime();
         Main main = new Main();
 
-        try {
-
+        try
+        {
             //read config
             Properties properties = main.getProperties();
             Connection connection = new Connection(properties);
@@ -28,9 +28,11 @@ public class Main {
             //open and read xlsx
             RowProcessor rowProcessor = new RowProcessor(properties.getProperty("XLSX_FILE"));
             Iterator<Row> rowIterator = rowProcessor.getRowIterator();
-            while (rowIterator.hasNext()) {
+            while (rowIterator.hasNext())
+            {
                 Row row = rowIterator.next();
-                if (StringUtils.isBlank(row.getCell(0).getStringCellValue())) {
+                if (row == null || row.getCell(0) == null || StringUtils.isBlank(row.getCell(0).getStringCellValue()))
+                {
                     break;
                 }
                 ProcessedRow processedRow = rowProcessor.processRow(row);
@@ -41,7 +43,8 @@ public class Main {
                 rowProcessor.saveRowResults(response, row);
             }
             rowProcessor.saveAndCloseFile();
-        } catch (IOException | JAXBException e) {
+        } catch (IOException | JAXBException e)
+        {
             e.printStackTrace();
         }
         System.out.println("Execution time: " + (System.nanoTime() - startTime) / 1000000 + "ms");
@@ -50,7 +53,8 @@ public class Main {
     private Properties getProperties() throws IOException {
         Properties properties = new Properties();
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("config.properties");
-        if (inputStream != null) {
+        if (inputStream != null)
+        {
             properties.load(inputStream);
             inputStream.close();
         }
